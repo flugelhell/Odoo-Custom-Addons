@@ -1,0 +1,7 @@
+# Only upload addons_custom and .gitignoregit
+*
+*/
+!.gitignore
+!addons_custom/
+!addons_custom/**
+!README.md

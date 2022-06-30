@@ -1,0 +1,62 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_form_custome_module">
+        <field name="name">Sarinah Custom Module</field>
+        <field name="model">brt.sarinah_custom</field>
+        <field name="arch" type="xml">
+            <form string="Daily News">
+            <header>
+             
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="chflag"/>
+                        <field name="chdescription"/>
+                        <field name="dadate"/>
+                        <field name="iovalid"/>
+                        <field name="devalue"/>
+                        <field name="invalue"/>
+                        <field name="choptiona"/>
+                        <field name="choptionb"/>
+                        <field name="choptionc"/>
+                    </group>
+                </group>
+          </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record  id="view_tree_custome_module" model="ir.ui.view">
+        <field name="name">Sarinah Custom Module</field>
+        <field name="model">brt.sarinah_custom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="chflag"/>
+                <field name="chdescription"/>
+                <field name="dadate"/>
+                <field name="iovalid"/>
+                <field name="devalue"/>
+                <field name="invalue"/>
+                <field name="choptiona"/>
+                <field name="choptionb"/>
+                <field name="choptionc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="act_custome_module" model="ir.actions.act_window">
+        <field name="name">Sarinah Custom Module</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">brt.sarinah_custom</field>
+        <field name="view_mode">tree,form,kanban,graph</field>
+    </record>
+
+
+    <menuitem name="Sarinah Module" id="brt_sarinah_custom.custome_module" parent="base.menu_administration"
+              action="act_custome_module"/>
+  
+  </data>
+</odoo>

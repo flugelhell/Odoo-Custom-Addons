@@ -1,0 +1,73 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_form_inv_stock_price">
+        <field name="name">Inventory Stock Price</field>
+        <field name="model">yyt.inv_stock_price</field>
+        <field name="arch" type="xml">
+            <form string="Daily News">
+            <header>
+             
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="id"/>
+                        <field name="owner"/>
+                        <field name="brand"/>
+                        <field name="consignment"/>
+                        <field name="sku"/>
+                        <field name="barcode"/>
+                        <field name="name"/>
+                        <field name="variant"/>
+                        <field name="qoh"/>
+                        <field name="price"/>
+                        <field name="location"/>
+                        <field name="pricelist"/>
+                        <field name="active"/>
+                    </group>
+                </group>
+          </sheet>
+          </form>
+        </field>
+    </record>
+  <record  id="view_tree_inv_stock_price" model="ir.ui.view">
+        <field name="name">Inventory Stock Price</field>
+        <field name="model">yyt.inv_stock_price</field>
+        <field name="arch" type="xml">
+            <tree default_order="location, owner, brand">
+                <field name="id" optional="hide"/>
+                <field name="owner"/>
+                <field name="brand"/>
+                <field name="consignment"/>
+                <field name="sku"/>
+                <field name="barcode"/>
+                <field name="name"/>
+                <field name="variant"/>
+                <field name="qoh"/>
+                <field name="price"/>
+                <field name="location"/>
+                <field name="pricelist"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="act_inv_stock_price">
+        <field name="name">Inventory Stock Price</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">yyt.inv_stock_price</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- Menu utama service -->
+    <!-- <menuitem name="Test Menu"
+      id="menu_inv_stock_price"
+      web_icon="yyt_inv_stock_price,static/description/icon.png"
+      action="act_inv_stock_price"
+      sequence="0"/> -->
+
+      <menuitem name="Custome Report Inventory" id="yyt_inv_stock_price_custome_report" parent="base.menu_administration" sequence="100"/>
+      <menuitem name="Inventory Stock Price" id="yyt_inv_stock_price_inventory_stock_price" parent="yyt_inv_stock_price_custome_report"
+              action="act_inv_stock_price" sequence="100"/>
+  </data>
+</odoo>
