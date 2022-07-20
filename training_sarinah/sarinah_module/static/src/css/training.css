@@ -1,0 +1,10 @@
+.oe_test_training {
+    clear: both;
+    float: right;
+    font-style: italic;
+    min-width: 350px;
+}
+
+.oe_test_color {
+    color: green;
+}

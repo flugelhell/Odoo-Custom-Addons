@@ -1,0 +1,173 @@
+<odoo>
+    <template id="training_custom_header_footer">
+
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        
+        <t t-call="sarinah_module.custom_header_footer"><t t-raw="0"/></t>
+    </template>
+
+    <template id="custom_header_footer">
+        <div class='header'> 
+            <div class="row">
+                <div class="col-2">
+                    <span/>
+                    <span t-field="res_company.logo" t-options-widget="&quot;image&quot;" style="width:140px;display:inline-block"/>
+                </div>
+                <!--  -->
+                <div class="col-5">
+                    <span/>
+                    <span t-field="res_company.name" class="o_bold"/>
+                    <br/>
+                    <span class="small o_bold"><span t-field="res_company.street" class="o_bold"/></span>
+                    <br/>
+                    <!-- <span class="small o_bold">
+                        Telp.<span t-field="res_company.phone" class="o_bold"/>
+                    </span> -->
+                    <span class="small o_bold">
+                        Phone : <span t-field="res_company.phone" class="o_bold"/>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1><strong><span t-field="o.name"/></strong></h1>
+                </div>
+            </div>
+            <p>
+                <div class="row">
+                    <div class="col-3">
+                        Trainer:
+                    </div>
+                    <div class="col-3">
+                        <span t-field="o.trainer_id.name"/>
+                    </div>
+                    <div class="col-3">
+                        Date:
+                    </div>
+                    <div class="col-3">
+                        <span t-esc="o.date.strftime('%d %b %Y')"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        Total Attendes:
+                    </div>
+                    <div class="col-3">
+                        <span t-field="o.total_attendees"/>
+                    </div>
+                    <div class="col-3">
+                        Trainer Name:
+                    </div>
+                    <div class="col-3">
+                        <span t-field="o.trainer_id.name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        Total Attendes without field:
+                    </div>
+                    <div class="col-6">
+                        <span t-esc="o.total_attendees_presence + o.total_not_presence"/>
+                    </div>
+                </div>
+            </p>
+            <hr style="background-color: black;"/>
+        </div>
+        <!--  -->
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-0">
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <template id="report_training">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sarinah_module.training_custom_header_footer">
+                    <div class="page">
+                        <br>
+                            <br/>
+                            <br/>
+                            <t t-set='no_urutan' t-value='0'/>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Attendee</th>
+                                        <th>Phone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.attendee_ids.filtered(lambda x: not x.presence)" t-as="line">
+                                        <tr>
+                                            <t t-set='no_urutan' t-value='no_urutan + 1'/>
+                                            <td>
+                                                <span t-esc="no_urutan"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.attendee_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.phone"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </br>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- <report
+        id="training_report"
+        model="training.module"
+        string="Training Attendee"
+        report_type="qweb-pdf"
+        name="training.report_training"
+        file="training.report_training"
+        print_report_name="'Training Attendee %s' % (object.name)"
+    /> -->
+
+    <record id="training_report_record" model="ir.actions.report">
+        <field name="name">Training Report</field>
+        <field name="model">training.module</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sarinah_module.report_training</field>
+        <field name="report_file">sarinah_module.report_training</field>
+        <field name="print_report_name">'Training :  %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sarinah_module.model_training_module"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="paperformat_training_report" model="report.paperformat">
+        <field name="name">Training Report</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">41</field>
+        <field name="dpi">90</field>
+        <field name="report_ids" eval="[(4, ref('training_report_record'))]"/>
+    </record>
+</odoo>

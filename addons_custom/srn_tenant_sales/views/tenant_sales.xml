@@ -1,0 +1,95 @@
+<odoo>
+    <record id="tenant_sales_view_form" model="ir.ui.view">
+        <field name="name">tenant.sales.form</field>
+        <field name="model">srn.tenant.sales</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sales_date"/>
+                            <field name="tenant_id"/>
+                            <field name="lot_location_id"/>
+                        </group>
+                        <group>
+                            <field name="day"/>
+                            <field name="omzet"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tenant_sales_view_tree" model="ir.ui.view">
+        <field name="name">tenant.sales.tree</field>
+        <field name="model">srn.tenant.sales</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="tenant_id"/>
+                <field name="lot_location_id"/>
+                <field name="sales_date"/>
+                <field name="day"/>
+                <field name="omzet"/>
+                <field name="description" optional='hide'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tenant_sales_view_graph" model="ir.ui.view">
+         <field name="name">tenant.sales.graph</field>
+         <field name="model">srn.tenant.sales</field>
+         <field name="arch" type="xml">
+             <graph string="Tenant Sales Omzet">
+                 <field name="tenant_id"/>
+                 <field name="omzet" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="tenant_sales_view_kanban" model="ir.ui.view">
+        <field name="name">tenant.sales.kanban</field>
+        <field name="model">srn.tenant.sales</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div t-if="record.tenant_id.value" class="col-6 text-left">
+                                    <strong><field name="tenant_id"/></strong>
+                                </div>
+                                <div t-if="record.omzet.value" class="col-6 text-right">
+                                    <span class="badge badge-pill">
+                                        <i class="fa fa-money" role="img" arial-label="Omzet Amount" title="Omzet Amount"></i>
+                                        <field name="omzet"/>
+                                    </span>
+                                </div>
+                                <div t-if="record.sales_date.value" class="col-6 text-left">
+                                    <field name="sales_date"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_tenant_sales_view" model="ir.actions.act_window">
+        <field name="name">Tenant Sales Omzet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">srn.tenant.sales</field>
+        <field name="view_mode">tree,form,graph,kanban</field>
+        <!-- <field name="view_mode">tree,form</field> -->
+        <field name="help" type="html">
+          <p>
+            Add new tenant sales omzet
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="tenant_sales_menu_root" name="Tenant Sales Omzet" web_icon='srn_tenant_sales,static/description/icon.png'/>
+    <menuitem id="tenant_sales_menu" name="Tenant Sales Omzet" action="action_tenant_sales_view" parent="tenant_sales_menu_root"/>
+</odoo>

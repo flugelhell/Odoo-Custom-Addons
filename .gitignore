@@ -5,3 +5,6 @@
 !addons_custom/
 !addons_custom/**
 !README.md
+!start.bat
+!training_sarinah/
+!training_sarinah/**

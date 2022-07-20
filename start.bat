@@ -1,0 +1,1 @@
+env\Scripts\python.exe odoo.py -c odoo.conf

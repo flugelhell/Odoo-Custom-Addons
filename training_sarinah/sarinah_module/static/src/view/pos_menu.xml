@@ -1,0 +1,23 @@
+<templates id="template" xml:space="preserve">
+    <t t-extend="Chrome">
+        <t t-jquery='.pos-topheader' t-operation='replace'>
+            <div class="pos-topheader">
+                <div class="pos-branding">                
+                    <img class="pos-logo" src="/point_of_sale/static/src/img/logo.png" />test
+                    <span class="placeholder-ShopnameWidget"></span>
+                    <span class="placeholder-UsernameWidget"></span>
+                </div>
+                <div class="pos-rightheader">
+                    <span class="placeholder-OrderSelectorWidget"></span>
+                    <!-- here goes header buttons -->
+                </div>
+            </div>
+        </t>
+    </t>
+    
+    <t t-name="ShopnameWidget">
+        <span class="shop-name">
+            <t t-esc="widget.get_shopname()" />
+        </span>
+    </t>
+</templates>

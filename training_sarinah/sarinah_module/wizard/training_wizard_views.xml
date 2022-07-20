@@ -1,0 +1,51 @@
+<odoo>
+        <!-- wizard action on training.module -->
+        <act_window id="add_attendee_action"
+            name="Add Attendee"
+            res_model="multi.add.attendee.wizard"
+            binding_model="training.module"
+            binding_views="list,form"
+            view_mode="form"
+            target="new"/>
+            <!-- key2="client_action_multi" -->
+            <!-- src_model="training.module" -->
+
+        <!-- wizard view -->
+        <record id="wizard_training_view" model="ir.ui.view">
+            <field name="name">Add Attendee</field>
+            <field name="model">multi.add.attendee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Add Attendee">
+                    <group>
+                        <field name="attendee_ids"/>
+                    </group>
+                    <footer>
+                        <button string="Add" name="add_attendee" type="object" class="btn-primary"/>
+                        <button string="Add Single Record" name="add_attendee_single" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_training_view_partner" model="ir.ui.view">
+            <field name="name">Add Attendee</field>
+            <field name="model">multi.add.attendee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Add Attendee">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Add" name="add_attendee_partner" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+</odoo>

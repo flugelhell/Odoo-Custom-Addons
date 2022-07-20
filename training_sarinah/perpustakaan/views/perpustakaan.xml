@@ -1,0 +1,137 @@
+<odoo>
+    <record id="peminjaman_buku_view_form" model="ir.ui.view">
+        <field name="name">peminjaman.buku.form</field>
+        <field name="model">peminjaman.buku</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="tanggal_pinjam"/>
+                            <field name="tanggal_kembali"/>
+                            <field name="peminjam_id"/>
+                        </group>
+                        <group>
+                            <field name="no_telp"/>
+                            <field name="petugas_id"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Daftar Buku Yang Dipinjam">
+                            <field name="daftar_buku_ids">
+                                <tree>
+                                    <field name="buku_id"/>
+                                    <field name="harga_pinjam_buku"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <!-- <field />Total -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="peminjaman_buku_view_tree" model="ir.ui.view">
+        <field name="name">peminjam.buku.tree</field>
+        <field name="model">peminjaman.buku</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="peminjam_id"/>
+                <field name="tanggal_pinjam"/>
+                <field name="tanggal_kembali"/>
+                <field name="petugas_id"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- <record id="training_course_view_kanban" model="ir.ui.view">
+        <field name="name">peminjaman.buku.kanban</field>
+        <field name="model">peminjaman.buku</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div t-if="record.name.value" class="col-6 text-center">
+                                    <strong>Name</strong>
+                                </div>
+                                <div t-if="record.trainer_id.value" class="col-6 text-center">
+                                    <strong>Trainer</strong>
+                                </div>
+                                <div t-if="record.name.value" class="col-6 text-center">
+                                    <field name="name"/>
+                                </div>
+                                <div t-if="record.trainer_id.value" class="col-6 text-center">
+                                    <field name="trainer_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="training_course_view_calendar">
+        <field name="name">peminjaman.buku.calendar</field>
+        <field name="model">peminjaman.buku</field>
+        <field name="arch" type="xml">
+            <calendar string="Scheduled" date_start="date">
+                <field name="name"/>
+                <field name="trainer_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="training_course_view_graph" model="ir.ui.view">
+         <field name="name">peminjaman.buku.graph</field>
+         <field name="model">peminjaman.buku</field>
+         <field name="arch" type="xml">
+             <graph string="Training">
+                 <field name="name"/>
+                 <field name="total_attendees" type="measure"/>
+             </graph>
+         </field>
+    </record> -->
+
+    <!-- <record id="training_course_res_users_inherit" model="ir.ui.view">
+         <field name="name">res.users.inherit</field>
+         <field name="model">res.users</field>
+         <field name="inherit_id" ref="base.view_users_form"/>
+         <field name="arch" type="xml">
+             <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Training">
+                    <field name="training_ids"/>
+                </page>
+             </xpath>
+         </field>
+    </record> -->
+
+    <record id="action_peminjaman_buku_view" model="ir.actions.act_window">
+        <field name="name">Peminjaman Buku</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">peminjaman.buku</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="view_mode">tree,form</field> -->
+        <field name="help" type="html">
+          <p>
+            No Data
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="peminjaman_buku_menu_root" name="Peminjaman Buku"/>
+    <menuitem id="peminjaman_buku_menu" name="peminjaman Buku" action="action_peminjaman_buku_view" parent="peminjaman_buku_menu_root"/>
+</odoo>
