@@ -5,6 +5,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="update_status" type="object" string="Update" attrs="{'invisible': [('status', '=', 'dikembalikan')]}" />
+                    <button name="update_status" type="object" string="Reset to Draft" attrs="{'invisible': [('status', '=', 'draft')]}"/>
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -21,7 +23,6 @@
                         <group>
                             <field name="no_telp"/>
                             <field name="petugas_id"/>
-                            <field name="status"/>
                         </group>
                     </group>
                     <notebook>
@@ -127,11 +128,11 @@
         <!-- <field name="view_mode">tree,form</field> -->
         <field name="help" type="html">
           <p>
-            No Data
+            NO DATA
           </p>
         </field>
     </record>
 
-    <menuitem id="peminjaman_buku_menu_root" name="Peminjaman Buku"/>
-    <menuitem id="peminjaman_buku_menu" name="peminjaman Buku" action="action_peminjaman_buku_view" parent="peminjaman_buku_menu_root"/>
+    <menuitem id="perpustakaan_menu_root" name="Perpustakaan"/>
+    <menuitem id="peminjaman_buku_menu" name="Pinjam Buku" action="action_peminjaman_buku_view" parent="perpustakaan_menu_root"/>
 </odoo>
