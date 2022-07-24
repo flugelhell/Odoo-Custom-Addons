@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_product_form_inherit" model="ir.ui.view">
+        <field name="name">product.form</field>
+        <field name="model">product.product</field>
+        <!-- product.product_normal_form_view = nama_module(nama_folder).nama_form_yg_di_inherit -->
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="sinopsis"/>
+            </field>
+        </field>
+    </record>
+</odoo>

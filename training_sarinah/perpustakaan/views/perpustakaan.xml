@@ -6,7 +6,7 @@
             <form>
                 <header>
                     <button name="update_status" type="object" string="Update" attrs="{'invisible': [('status', '=', 'dikembalikan')]}" />
-                    <button name="update_status" type="object" string="Reset to Draft" attrs="{'invisible': [('status', '=', 'draft')]}"/>
+                    <button name="update_status_to_draft" type="object" string="Reset to Draft" attrs="{'invisible': [('status', '=', 'draft')]}"/>
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -27,15 +27,17 @@
                     </group>
                     <notebook>
                         <page string="Daftar Buku Yang Dipinjam">
-                            <field name="daftar_buku_ids">
+                            <field name="daftar_buku_ids" attrs="{'readonly': [('status', '!=','draft')]}">
                                 <tree>
                                     <field name="buku_id"/>
                                     <field name="harga_pinjam_buku"/>
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="total_harga_pinjam" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
                         </page>
                     </notebook>
-                    <!-- <field />Total -->
                 </sheet>
             </form>
         </field>

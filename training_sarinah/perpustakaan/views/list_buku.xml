@@ -1,0 +1,28 @@
+<odoo>
+    <record id="list_buku_view_tree" model="ir.ui.view">
+        <field name="name">list.buku.tree</field>
+        <field name="model">daftar.buku</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="buku_id"/>
+                <field name="harga_pinjam_buku"/>
+                <!-- <field name="sinopsis"/> -->
+                <field name="peminjaman_buku_id"/> 
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_list_buku_view" model="ir.actions.act_window">
+        <field name="name">List Buku</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">daftar.buku</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p>
+            NO DATA
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="list_buku_menu" name="List Buku" action="action_list_buku_view" parent="perpustakaan_menu_root"/>
+</odoo>

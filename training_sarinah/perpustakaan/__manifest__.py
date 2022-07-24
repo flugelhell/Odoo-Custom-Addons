@@ -25,6 +25,8 @@
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'views/perpustakaan.xml',
+        'views/inherit_product_view.xml',
+        'views/list_buku.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

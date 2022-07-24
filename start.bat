@@ -1,1 +1,1 @@
-env\Scripts\python.exe odoo.py -c odoo.conf
+env\Scripts\python.exe odoo.py -c odoo.conf -d odoo13dev -u perpustakaan

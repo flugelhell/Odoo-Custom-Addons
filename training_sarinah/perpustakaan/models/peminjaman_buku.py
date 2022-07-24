@@ -1,4 +1,6 @@
 from odoo import fields, models, api
+from odoo.exceptions import ValidationError
+from datetime import datetime
 
 
 class PeminjamanBuku(models.Model):
@@ -15,7 +17,8 @@ class PeminjamanBuku(models.Model):
     petugas_id = fields.Many2one('res.users', string='Petugas')
     daftar_buku_ids = fields.One2many(
         'daftar.buku', 'peminjaman_buku_id', string='Daftar Buku')
-    total_harga_pinjam = fields.Float(string='Total Harga Pinjam')
+    total_harga_pinjam = fields.Float(
+        string='Total', compute='_compute_total', store=True)
     status = fields.Selection(
         [('draft', 'Draft'), ('dipinjam', 'Dipinjam'), ('dikembalikan', 'Dikembalikan')], default='draft')
 
@@ -28,15 +31,43 @@ class PeminjamanBuku(models.Model):
 
     # attendee_ids = fields.One2many(
     #     'training.attendees', 'training_id', string='Attendees')
+
+    @api.depends('daftar_buku_ids')
+    def _compute_total(self):
+        self.total_harga_pinjam = 0
+        for item in self.daftar_buku_ids:
+            self.total_harga_pinjam = self.total_harga_pinjam + item.harga_pinjam_buku
+            print('##################', item.harga_pinjam_buku)
+
+    # Override saat update untuk status = dipinjam
+    def write(self, vals):
+        if(self.status == 'dipinjam'):
+            tgl_dikembalikan = vals.get('tanggal_kembali')
+            if not self.tanggal_kembali and not tgl_dikembalikan:
+                raise ValidationError('Tanggal Kembali harus diisi')
+            else:
+                # pengecekan tanggal ada di tombol update
+                return super(PeminjamanBuku, self).write(vals)
+        else:
+            return super(PeminjamanBuku, self).write(vals)
+
     def update_status(self):
         if self.status == 'draft':
             self.write({'status': 'dipinjam'})
         elif self.status == 'dipinjam':
-            self.write({'status': 'dikembalikan'})
-        else:
-            self.write({'status': 'draft'})
+            if self.tanggal_kembali:
+                if(self.tanggal_kembali < self.tanggal_pinjam):
+                    raise ValidationError(
+                        'Tanggal Kembali harus diset sama dengan atau lebih besar dari Tanggal Pinjam')
+                else:
+                    self.write({'status': 'dikembalikan'})
+            else:
+                raise ValidationError("Tanggal Kembali Harus Diisi !!!")
 
+    def update_status_to_draft(self):
+        self.write({'status': 'draft'})
     # Membuat sequence, harus membuat record xml juga
+
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -51,13 +82,15 @@ class DaftarBuku(models.Model):
     _description = 'Daftar Buku'
 
     buku_id = fields.Many2one('product.product', string='Buku')
+    # Id transaksi peminjaman buku
     peminjaman_buku_id = fields.Many2one(
         'peminjaman.buku', string='Peminjam ID')
     harga_pinjam_buku = fields.Float(string='Harga Pinjam')
 
 
-# Menambahkan Field di product.product (Product dilihat dari module product odoo di bagian Model)
-class Product(models.Model):
+# class NamaClassYgDiInherit
+class ProductProduct(models.Model):
+    # nama model yg di inherit
     _inherit = 'product.product'
 
     sinopsis = fields.Text(string='Sinopsis')
