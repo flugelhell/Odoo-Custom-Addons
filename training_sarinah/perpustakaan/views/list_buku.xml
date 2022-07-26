@@ -6,7 +6,7 @@
             <tree>
                 <field name="buku_id"/>
                 <field name="harga_pinjam_buku"/>
-                <!-- <field name="sinopsis"/> -->
+                <field name="sinopsis"/>
                 <field name="peminjaman_buku_id"/> 
             </tree>
         </field>

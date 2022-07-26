@@ -1,15 +1,22 @@
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+# Header Table
 
 
 class PeminjamanBuku(models.Model):
     _name = 'peminjaman.buku'
     _description = 'Module Perpustakan'
 
+    def _current_date():
+        return datetime.today().date()
+
     name = fields.Char(string='Name', readonly=True,
                        required=True, copy=False, default='New')
-    tanggal_pinjam = fields.Date(string='Tanggal Pinjam', required=True)
+    tanggal_pinjam = fields.Date(
+        string='Tanggal Pinjam', required=True, default=_current_date())
     tanggal_kembali = fields.Date(string='Tanggal Kembali')
     peminjam_id = fields.Many2one(
         'res.users', string='Peminjam', required=True)
@@ -22,22 +29,21 @@ class PeminjamanBuku(models.Model):
     status = fields.Selection(
         [('draft', 'Draft'), ('dipinjam', 'Dipinjam'), ('dikembalikan', 'Dikembalikan')], default='draft')
 
-    # state = fields.Selection([('draft', 'Draft'), ('inprogress', 'In progress'),
-    #                          ('done', 'Done')], default='draft', string="Status")
-    # total_attendees = fields.Integer(string='Total Attendees')
-
-    # trainer_id = fields.Many2one('res.users', string="Trainer")
-    # assistant_ids = fields.Many2many('res.users', string="Assistant")
-
-    # attendee_ids = fields.One2many(
-    #     'training.attendees', 'training_id', string='Attendees')
+    @api.onchange('tanggal_pinjam')
+    def _onchange_tanggal_pinjam(self):
+        if self.tanggal_pinjam:
+            self.tanggal_kembali = self.tanggal_pinjam + relativedelta(weeks=1)
 
     @api.depends('daftar_buku_ids')
     def _compute_total(self):
-        self.total_harga_pinjam = 0
-        for item in self.daftar_buku_ids:
-            self.total_harga_pinjam = self.total_harga_pinjam + item.harga_pinjam_buku
-            print('##################', item.harga_pinjam_buku)
+        # Cara 1
+        # self.total_harga_pinjam = 0
+        # for item in self.daftar_buku_ids:
+        #     self.total_harga_pinjam = self.total_harga_pinjam + item.harga_pinjam_buku
+        #     print('##################', item.harga_pinjam_buku)
+        # Cara 2
+        self.total_harga_pinjam = sum(
+            [line.harga_pinjam_buku for line in self.daftar_buku_ids])
 
     # Override saat update untuk status = dipinjam
     def write(self, vals):
@@ -66,6 +72,7 @@ class PeminjamanBuku(models.Model):
 
     def update_status_to_draft(self):
         self.write({'status': 'draft'})
+
     # Membuat sequence, harus membuat record xml juga
 
     @api.model
@@ -75,6 +82,8 @@ class PeminjamanBuku(models.Model):
                 'pinjam.buku.sequence') or 'New'
         result = super(PeminjamanBuku, self).create(vals)
         return result
+
+# detail table
 
 
 class DaftarBuku(models.Model):
@@ -86,6 +95,8 @@ class DaftarBuku(models.Model):
     peminjaman_buku_id = fields.Many2one(
         'peminjaman.buku', string='Peminjam ID')
     harga_pinjam_buku = fields.Float(string='Harga Pinjam')
+    # ambil data dari product.product via related, field ini tidak akan terbentuk kolom di table
+    sinopsis = fields.Text(related='buku_id.sinopsis', string='Sinopsis')
 
 
 # class NamaClassYgDiInherit

@@ -137,4 +137,5 @@
 
     <menuitem id="perpustakaan_menu_root" name="Perpustakaan"/>
     <menuitem id="peminjaman_buku_menu" name="Pinjam Buku" action="action_peminjaman_buku_view" parent="perpustakaan_menu_root"/>
+    
 </odoo>
