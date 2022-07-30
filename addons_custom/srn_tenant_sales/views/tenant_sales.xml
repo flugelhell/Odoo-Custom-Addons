@@ -9,10 +9,11 @@
                         <group>
                             <field name="sales_date"/>
                             <field name="tenant_id"/>
-                            <field name="lot_location_id"/>
+                            <field name="brand"/>
                         </group>
                         <group>
                             <field name="day"/>
+                            <field name="lot_location_id"/>
                             <field name="omzet"/>
                         </group>
                     </group>
@@ -28,6 +29,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="tenant_id"/>
+                <field name="brand"/>
                 <field name="lot_location_id"/>
                 <field name="sales_date"/>
                 <field name="day"/>
